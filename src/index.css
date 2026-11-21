@@ -64,10 +64,13 @@
       border-color 160ms ease-out, color 160ms ease-out;
   }
 
-  .lift:hover {
-    transform: translate(-3px, -3px);
-    box-shadow: 6px 6px 0 0 var(--pop, #0081f7);
-    border-color: var(--pop, #0081f7);
+  /* hover only on mouse devices, so a tapped tile doesn't stay lifted on phones */
+  @media (hover: hover) {
+    .lift:hover {
+      transform: translate(-3px, -3px);
+      box-shadow: 6px 6px 0 0 var(--pop, #0081f7);
+      border-color: var(--pop, #0081f7);
+    }
   }
 
   .lift:active {

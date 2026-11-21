@@ -37,6 +37,16 @@ Marketing for access.
 Hash addresses and `base: './'` mean the built site works from any folder or
 sub-path (for example `madmonkeyhostels.com/vighub`) with no server rules.
 
+## Demo deploy
+
+Demo: https://mm-vig-hub.vercel.app (Vercel project `mm-vig-hub`, team cfsitedesigns-projects).
+
+```bash
+./scripts/deploy-demo.sh
+```
+
+Builds, then uploads `dist/` from a folder outside git (no Vercel build, no commit-author check).
+
 ## Hosting note
 
 Lao networks cannot resolve `*.vercel.app`. Host the hub on a madmonkeyhostels.com
