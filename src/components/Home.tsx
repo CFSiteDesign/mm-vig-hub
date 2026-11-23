@@ -21,7 +21,8 @@ export default function Home({ expanded, onToggle, myProperty, returnTo }: Props
 
   useEffect(() => {
     if (!returnTo) return
-    const el = document.getElementById(`prop-${returnTo}`)
+    // a property link in the directory, or a guide card in shared resources
+    const el = document.getElementById(`prop-${returnTo}`) ?? document.getElementById(`res-${returnTo}`)
     if (el) {
       el.scrollIntoView({ block: 'center', behavior: 'instant' })
       el.focus({ preventScroll: true })

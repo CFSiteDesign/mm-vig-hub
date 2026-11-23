@@ -1,7 +1,8 @@
 import { useEffect, useRef, type CSSProperties, type ReactNode } from 'react'
-import { ArrowLeft, ArrowUpRight, CalendarDays, Lock, Sparkles, Star } from 'lucide-react'
-import { TOOLS, countryById, instagramHandle, type Property } from '../data/hub'
-import { CanvaIcon, InstagramIcon, WhatsAppIcon } from './icons'
+import { ArrowLeft, ArrowUpRight, CalendarDays, Clock, Lock, Sparkles, Star } from 'lucide-react'
+import { LOGIN_NOTE, TOOLS, countryById, instagramHandle, tiktokHandle, type Property } from '../data/hub'
+import { localTime, useNow } from '../lib/state'
+import { CanvaIcon, InstagramIcon, TikTokIcon, WhatsAppIcon } from './icons'
 import { SharedResourcesCompact } from './SharedResources'
 
 type Props = {
@@ -14,6 +15,7 @@ type Props = {
 export default function PropertyView({ property: p, isMine, onToggleMine, onBack }: Props) {
   const country = countryById(p.country)!
   const headingRef = useRef<HTMLHeadingElement>(null)
+  const now = useNow()
 
   // Move focus to the property name so keyboard and screen-reader users land on the new page
   useEffect(() => {
@@ -46,6 +48,10 @@ export default function PropertyView({ property: p, isMine, onToggleMine, onBack
         >
           {p.name}
         </h1>
+        <p className="mt-4 flex items-center gap-2 text-sm font-semibold">
+          <Clock className="h-4 w-4" aria-hidden="true" />
+          Local time: {localTime(now, country.timeZone)}
+        </p>
         <button
           type="button"
           onClick={onToggleMine}
@@ -75,6 +81,7 @@ export default function PropertyView({ property: p, isMine, onToggleMine, onBack
               icon={<WhatsAppIcon className="h-6 w-6" />}
               title="WhatsApp Group"
               description={`${p.name} guest WhatsApp group`}
+              when="Post tonight's events between 2pm and 4pm, local time."
               large
             />
           </li>
@@ -87,11 +94,28 @@ export default function PropertyView({ property: p, isMine, onToggleMine, onBack
               title="Instagram"
               detail={p.instagram ? instagramHandle(p.instagram) : undefined}
               description={p.instagramNote ?? `${p.name} Instagram account`}
-              note="Need the login? Ask your GM or Marketing to share it."
+              when="Post Stories in the morning, local time. Stories only, never the grid."
+              note={LOGIN_NOTE}
               large
             />
           </li>
         </ul>
+        {p.tiktok && (
+          <a
+            href={p.tiktok}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group mt-4 flex items-center gap-3 rounded-2xl border border-line bg-surface px-5 py-4 text-sm transition-colors hover:border-cream/40"
+          >
+            <TikTokIcon className="h-5 w-5 shrink-0" />
+            <span className="min-w-0 flex-1">
+              <span className="block font-semibold">Also on TikTok</span>
+              <span className="block truncate text-muted">{tiktokHandle(p.tiktok)}</span>
+            </span>
+            <ArrowUpRight className="h-5 w-5 shrink-0 text-muted group-hover:text-cream" aria-hidden="true" />
+            <span className="sr-only"> (opens in a new tab)</span>
+          </a>
+        )}
       </section>
 
       <section aria-labelledby="tools-title" className="mt-10">
@@ -145,11 +169,13 @@ type TileProps = {
   title: string
   detail?: string
   description: string
+  /** When to post (from the VIG SOP) */
+  when?: string
   note?: string
   large?: boolean
 }
 
-function Tile({ href, colour, onColour, icon, title, detail, description, note, large }: TileProps) {
+function Tile({ href, colour, onColour, icon, title, detail, description, when, note, large }: TileProps) {
   const missing = !href
 
   const content = (
@@ -173,8 +199,14 @@ function Tile({ href, colour, onColour, icon, title, detail, description, note, 
         </h3>
         {detail && <p className="mt-1 break-all font-semibold">{detail}</p>}
         <p className="mt-1 text-sm text-muted">{description}</p>
-        {note && !missing && (
+        {when && !missing && (
           <p className="mt-4 flex gap-2 border-t border-line pt-4 text-sm text-cream">
+            <Clock className="mt-0.5 h-4 w-4 shrink-0 text-pop-lime" aria-hidden="true" />
+            {when}
+          </p>
+        )}
+        {note && !missing && (
+          <p className={`flex gap-2 text-sm text-cream ${when ? 'mt-3' : 'mt-4 border-t border-line pt-4'}`}>
             <Lock className="mt-0.5 h-4 w-4 shrink-0 text-pop-yellow" aria-hidden="true" />
             {note}
           </p>

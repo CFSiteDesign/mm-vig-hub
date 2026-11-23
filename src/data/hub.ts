@@ -5,8 +5,10 @@
  * To add a property: copy one line in PROPERTIES and change the values.
  * Leave a link as '' (empty) and the page shows "Not added yet" instead of a broken button.
  *
- * Never put a password or login detail in this file. The page links to where
- * access is handled (the GM or Marketing), it never shows credentials.
+ * Never put a password or login detail in this file. Logins live in the shared
+ * password manager; the page only ever says where to get access.
+ *
+ * The SOP and Playbook text lives in src/components/guides/.
  */
 
 /* ------------------------------------------------------------------ */
@@ -14,17 +16,39 @@
 /* ------------------------------------------------------------------ */
 
 export const TOOLS = {
-  // madmonkeyhostels.com address (vercel.app addresses are blocked on Lao networks)
+  // madmonkeyhostels.com / madmonkeygroup.com addresses (vercel.app is blocked on Lao networks)
   experienceDashboard: 'https://madmonkeyhostels.com/experiencedashboard',
   studio: 'https://studio.madmonkeygroup.com',
   canvaTemplates: 'https://www.canva.com/brand/brand-templates',
+  /** Named in the Event Comms Playbook, link not supplied yet */
+  brandImageLibrary: '',
 }
+
+/** The original files, linked from the VIG SOP (Google Drive, anyone with the link can view) */
+export const ORIGINALS = {
+  vigSop: '', // the SOP came as a Word file; add its Google Doc link here if there is one
+  eventCommsPlaybook:
+    'https://docs.google.com/presentation/d/1zda_XBfw33ZPGdo-r2z9G9g_BlSelme3/edit?usp=sharing&rtpof=true&sd=true',
+  communityManagementSst:
+    'https://docs.google.com/spreadsheets/d/1kZ58LoemV9ochqtZphvUpTgwChj0lf4JYI2nCsfbEns/edit?usp=sharing',
+}
+
+/** Where every login lives. Shown wherever a tool needs signing in to. */
+export const LOGIN_NOTE = 'Logins are in the shared password manager. No access? Ask your GM or Marketing.'
+
+/* ------------------------------------------------------------------ */
+/* Guides that open inside the hub (#/sop, #/playbook)                 */
+/* ------------------------------------------------------------------ */
+
+export const GUIDE_IDS = ['sop', 'playbook'] as const
+export type GuideId = (typeof GUIDE_IDS)[number]
+export const isGuideId = (id: string): id is GuideId => (GUIDE_IDS as readonly string[]).includes(id)
 
 /* ------------------------------------------------------------------ */
 /* Shared resources & tools (homepage)                                 */
 /* ------------------------------------------------------------------ */
 
-export type ResourceKind = 'Doc' | 'Slides' | 'Sheet' | 'Tool'
+export type ResourceKind = 'Guide' | 'Sheet' | 'Tool'
 
 export interface SharedResource {
   id: string
@@ -32,6 +56,9 @@ export interface SharedResource {
   subtitle?: string
   description: string
   kind: ResourceKind
+  /** Opens a page inside the hub (same tab) */
+  page?: GuideId
+  /** Opens an outside link (new tab). Ignored when `page` is set. */
   url: string
   /** Shown as a highlighted badge on the card */
   badge?: string
@@ -45,24 +72,26 @@ export const SHARED_RESOURCES: SharedResource[] = [
     title: 'VIG SOP',
     subtitle: 'WhatsApp Groups and Instagram',
     description: 'Daily responsibilities, posting instructions and channel guidelines.',
-    kind: 'Doc',
+    kind: 'Guide',
     badge: 'Main source of truth',
-    url: '', // TODO: link to the VIG SOP
+    page: 'sop',
+    url: ORIGINALS.vigSop,
   },
   {
     id: 'event-comms-playbook',
     title: 'WhatsApp Event Comms Playbook',
-    description: 'Messaging examples and guidelines.',
-    kind: 'Slides',
-    url: '', // TODO: link to the playbook (PPT)
+    description: 'Messaging examples and guidelines, with templates you can copy.',
+    kind: 'Guide',
+    page: 'playbook',
+    url: ORIGINALS.eventCommsPlaybook,
   },
   {
     id: 'community-management-sst',
     title: 'Community Management SST',
     description: 'Property links, social accounts and access information.',
     kind: 'Sheet',
-    note: 'Instagram logins are never posted here. Ask your GM or Marketing to share the login for your property.',
-    url: '', // TODO: link to the Community Management SST
+    note: LOGIN_NOTE,
+    url: ORIGINALS.communityManagementSst,
   },
   {
     id: 'experience-dashboard',
@@ -97,15 +126,18 @@ export interface Country {
   colour: string
   /** Text colour that reads on top of `colour` */
   onColour: string
+  /** Local time zone of every property in the country (the SOP: post in local time) */
+  timeZone: string
 }
 
 export const COUNTRIES: Country[] = [
-  { id: 'cambodia', name: 'Cambodia', colour: '#ff01aa', onColour: '#0a0a0a' },
-  { id: 'indonesia', name: 'Indonesia', colour: '#00fef3', onColour: '#0a0a0a' },
-  { id: 'laos', name: 'Laos', colour: '#ccff01', onColour: '#0a0a0a' },
-  { id: 'philippines', name: 'Philippines', colour: '#ffc000', onColour: '#0a0a0a' },
-  { id: 'thailand', name: 'Thailand', colour: '#ff6600', onColour: '#0a0a0a' },
-  { id: 'vietnam', name: 'Vietnam', colour: '#ab00ff', onColour: '#ffffff' },
+  { id: 'cambodia', name: 'Cambodia', colour: '#ff01aa', onColour: '#0a0a0a', timeZone: 'Asia/Phnom_Penh' },
+  // Bali, Lombok and the Gilis are all on Central Indonesia time (WITA, UTC+8)
+  { id: 'indonesia', name: 'Indonesia', colour: '#00fef3', onColour: '#0a0a0a', timeZone: 'Asia/Makassar' },
+  { id: 'laos', name: 'Laos', colour: '#ccff01', onColour: '#0a0a0a', timeZone: 'Asia/Vientiane' },
+  { id: 'philippines', name: 'Philippines', colour: '#ffc000', onColour: '#0a0a0a', timeZone: 'Asia/Manila' },
+  { id: 'thailand', name: 'Thailand', colour: '#ff6600', onColour: '#0a0a0a', timeZone: 'Asia/Bangkok' },
+  { id: 'vietnam', name: 'Vietnam', colour: '#ab00ff', onColour: '#ffffff', timeZone: 'Asia/Ho_Chi_Minh' },
 ]
 
 /* ------------------------------------------------------------------ */
@@ -121,6 +153,8 @@ export interface Property {
   whatsapp: string
   /** Property Instagram account */
   instagram: string
+  /** Property TikTok account (for reference; Stories go on Instagram) */
+  tiktok?: string
   /** Optional: overrides the shared tool links for this property */
   canva?: string
   studio?: string
@@ -129,42 +163,46 @@ export interface Property {
   instagramNote?: string
 }
 
-// WhatsApp + Instagram links copied from the hostel QR link hub (mm-linktree), 21 Nov 2026.
+/*
+ * WhatsApp, Instagram and TikTok come from the Community Management SST (v1.0, 17 Nov 2026).
+ * Not in the SST, kept from the hostel QR link hub (mm-linktree): Kampot, and Siquijor's
+ * WhatsApp group (the SST says MISSING, the link works). Every WhatsApp link checked 23 Nov 2026.
+ */
 export const PROPERTIES: Property[] = [
   // Cambodia
   { id: 'kampot', name: 'Kampot', country: 'cambodia', whatsapp: '', instagram: 'https://www.instagram.com/madmonkeyhostels/', instagramNote: 'Uses the main Mad Monkey account' },
-  { id: 'koh-rong', name: 'Koh Rong', country: 'cambodia', whatsapp: 'https://chat.whatsapp.com/JeLfnmqOC5vEkU1JzOxerU', instagram: 'https://www.instagram.com/madmonkeykohrong/' },
-  { id: 'koh-sdach', name: 'Koh Sdach', country: 'cambodia', whatsapp: 'https://chat.whatsapp.com/KcCxhxFGWISBS8qL6ZQ3Gw', instagram: 'https://www.instagram.com/madmonkeykohsdach/' },
-  { id: 'phnom-penh', name: 'Phnom Penh', country: 'cambodia', whatsapp: 'https://chat.whatsapp.com/ISFzdY6OEfPEnfhG6N8Jsa', instagram: 'https://www.instagram.com/madmonkeyphnompenh/' },
-  { id: 'siem-reap', name: 'Siem Reap', country: 'cambodia', whatsapp: 'https://chat.whatsapp.com/BYBQOX249Ok3kCmtQEbLo4', instagram: 'https://www.instagram.com/madmonkeysiemreap_/' },
+  { id: 'koh-rong', name: 'Koh Rong', country: 'cambodia', whatsapp: 'https://chat.whatsapp.com/JeLfnmqOC5vEkU1JzOxerU', instagram: 'https://www.instagram.com/madmonkeykohrong/', tiktok: 'https://www.tiktok.com/@madmonkeykohrong_' },
+  { id: 'koh-sdach', name: 'Koh Sdach', country: 'cambodia', whatsapp: 'https://chat.whatsapp.com/KcCxhxFGWISBS8qL6ZQ3Gw', instagram: 'https://www.instagram.com/madmonkeykohsdach/', tiktok: 'https://www.tiktok.com/@madmonkeykohsdach' },
+  { id: 'phnom-penh', name: 'Phnom Penh', country: 'cambodia', whatsapp: 'https://chat.whatsapp.com/ISFzdY6OEfPEnfhG6N8Jsa', instagram: 'https://www.instagram.com/madmonkeyphnompenh/', tiktok: 'https://www.tiktok.com/@madmonkey.phnompenh' },
+  { id: 'siem-reap', name: 'Siem Reap', country: 'cambodia', whatsapp: 'https://chat.whatsapp.com/BYBQOX249Ok3kCmtQEbLo4', instagram: 'https://www.instagram.com/madmonkeysiemreap_/', tiktok: 'https://www.tiktok.com/@mad.monkey.siem.r' },
 
   // Indonesia
-  { id: 'gili-trawangan', name: 'Gili Trawangan', country: 'indonesia', whatsapp: '', instagram: 'https://www.instagram.com/madmonkeygilitrawangan/' },
+  { id: 'gili-trawangan', name: 'Gili Trawangan', country: 'indonesia', whatsapp: '', instagram: 'https://www.instagram.com/madmonkeygilitrawangan/', tiktok: 'https://www.tiktok.com/@mad.monkey.gili.t' },
   { id: 'kuta-lombok', name: 'Kuta Lombok', country: 'indonesia', whatsapp: 'https://chat.whatsapp.com/FuOjWvlRMwBFFyoB0mKYDk', instagram: 'https://www.instagram.com/madmonkeykutalombok/' },
   { id: 'nusa-lembongan', name: 'Nusa Lembongan', country: 'indonesia', whatsapp: 'https://chat.whatsapp.com/JT3T3XicKmTLaKKYM0yu7q', instagram: 'https://www.instagram.com/madmonkeynusalembongan/' },
-  { id: 'uluwatu', name: 'Uluwatu', country: 'indonesia', whatsapp: 'https://chat.whatsapp.com/Ke4ZrqDQGnFEXMNNlkuJsT', instagram: 'https://www.instagram.com/madmonkeyuluwatu/' },
+  { id: 'uluwatu', name: 'Uluwatu', country: 'indonesia', whatsapp: 'https://chat.whatsapp.com/Ke4ZrqDQGnFEXMNNlkuJsT', instagram: 'https://www.instagram.com/madmonkeyuluwatu/', tiktok: 'https://www.tiktok.com/@madmonkeyuluwatu' },
 
   // Laos
-  { id: 'luang-prabang', name: 'Luang Prabang', country: 'laos', whatsapp: 'https://chat.whatsapp.com/J5cf5xgxZ3gIjucZ6nqCGE', instagram: 'https://www.instagram.com/madmonkeyluangprabang/' },
-  { id: 'vang-vieng', name: 'Vang Vieng', country: 'laos', whatsapp: 'https://chat.whatsapp.com/DZFiLDqP3zuJIxxnnhnF7l', instagram: 'https://www.instagram.com/madmonkeyvangvieng/' },
+  { id: 'luang-prabang', name: 'Luang Prabang', country: 'laos', whatsapp: 'https://chat.whatsapp.com/J5cf5xgxZ3gIjucZ6nqCGE', instagram: 'https://www.instagram.com/madmonkeyluangprabang/', tiktok: 'https://www.tiktok.com/@madmonkeyluangprabang' },
+  { id: 'vang-vieng', name: 'Vang Vieng', country: 'laos', whatsapp: 'https://chat.whatsapp.com/DZFiLDqP3zuJIxxnnhnF7l', instagram: 'https://www.instagram.com/madmonkeyvangvieng/', tiktok: 'https://www.tiktok.com/@madmonkeyvangvieng' },
 
   // Philippines
-  { id: 'dumaguete', name: 'Dumaguete', country: 'philippines', whatsapp: '', instagram: 'https://www.instagram.com/madmonkey_dumaguete/' },
-  { id: 'manila', name: 'Manila', country: 'philippines', whatsapp: 'https://chat.whatsapp.com/Jk0b6DoNRhKFceolBZLj3h', instagram: 'https://www.instagram.com/madmonkeymanila/' },
-  { id: 'nacpan-beach', name: 'Nacpan Beach', country: 'philippines', whatsapp: 'https://chat.whatsapp.com/LcOhfBqA1VF1HxB6ldGHD1', instagram: '' },
-  { id: 'panglao', name: 'Panglao', country: 'philippines', whatsapp: 'https://chat.whatsapp.com/BajoBLC3zsb0c7cfJj68Fl', instagram: '' },
-  { id: 'siargao', name: 'Siargao', country: 'philippines', whatsapp: 'https://chat.whatsapp.com/BBLy7mC93WcBXD1pP6MYZU', instagram: 'https://www.instagram.com/mad_monkey_siargao/' },
-  { id: 'siquijor', name: 'Siquijor', country: 'philippines', whatsapp: 'https://chat.whatsapp.com/H1SOs5oB6BuFpKcdeeS76p', instagram: 'https://www.instagram.com/madmonkey_siquijor/' },
+  { id: 'dumaguete', name: 'Dumaguete', country: 'philippines', whatsapp: '', instagram: 'https://www.instagram.com/madmonkey_dumaguete/', tiktok: 'https://www.tiktok.com/@madmonkeydumaguete' },
+  { id: 'manila', name: 'Manila', country: 'philippines', whatsapp: 'https://chat.whatsapp.com/Jk0b6DoNRhKFceoIBZLj3h', instagram: 'https://www.instagram.com/madmonkeymanila/', tiktok: 'https://www.tiktok.com/@madmonkeycafe_manila' },
+  { id: 'nacpan-beach', name: 'Nacpan Beach', country: 'philippines', whatsapp: 'https://chat.whatsapp.com/LcOhfBqA1VF1HxB6ldGHD1', instagram: 'https://www.instagram.com/madmonkey_nacpanbeach/', tiktok: 'https://www.tiktok.com/@madmonkey_nacpanbeach' },
+  { id: 'panglao', name: 'Panglao', country: 'philippines', whatsapp: 'https://chat.whatsapp.com/BajoBLC3zsb0c7cfJj68Fl', instagram: 'https://www.instagram.com/madmonkeypanglao/', tiktok: 'https://www.tiktok.com/@madmonkeypanglao' },
+  { id: 'siargao', name: 'Siargao', country: 'philippines', whatsapp: 'https://chat.whatsapp.com/BBLy7mC93WcBXD1pP6MYZU', instagram: 'https://www.instagram.com/mad_monkey_siargao/', tiktok: 'https://www.tiktok.com/@mad.monkey.siargao' },
+  { id: 'siquijor', name: 'Siquijor', country: 'philippines', whatsapp: 'https://chat.whatsapp.com/H1SOs5oB6BuFpKcdeeS76p', instagram: 'https://www.instagram.com/_madmonkeysiquijor/', tiktok: 'https://www.tiktok.com/@madmonkeysiquijor' },
 
   // Thailand
-  { id: 'bangkok', name: 'Bangkok', country: 'thailand', whatsapp: 'https://chat.whatsapp.com/Ep53YVu6knrDcdamdQuloD', instagram: 'https://www.instagram.com/madmonkeybangkok/' },
-  { id: 'chiang-mai', name: 'Chiang Mai', country: 'thailand', whatsapp: 'https://chat.whatsapp.com/IeqDN7Ayk5XCunHVNydDmm', instagram: 'https://www.instagram.com/madmonkeychiangmai/' },
-  { id: 'pai', name: 'Pai', country: 'thailand', whatsapp: 'https://chat.whatsapp.com/J41C9AvnB2P1HaB4ZgFyda', instagram: 'https://www.instagram.com/madmonkey_pai/' },
+  { id: 'bangkok', name: 'Bangkok', country: 'thailand', whatsapp: 'https://chat.whatsapp.com/Ep53YVu6knrDcdamdQuloD', instagram: 'https://www.instagram.com/madmonkeybangkok/', tiktok: 'https://www.tiktok.com/@madmonkeybangkok' },
+  { id: 'chiang-mai', name: 'Chiang Mai', country: 'thailand', whatsapp: 'https://chat.whatsapp.com/IeqDN7Ayk5XCunHVNydDmm', instagram: 'https://www.instagram.com/madmonkeychiangmai/', tiktok: 'https://www.tiktok.com/@madmonkeychiangmai' },
+  { id: 'pai', name: 'Pai', country: 'thailand', whatsapp: 'https://chat.whatsapp.com/J41C9AvnB2P1HaB4ZgFyda', instagram: 'https://www.instagram.com/madmonkey_pai/', tiktok: 'https://www.tiktok.com/@madmonkeyhostelspai' },
   { id: 'phuket', name: 'Phuket', country: 'thailand', whatsapp: 'https://chat.whatsapp.com/GxO9aCHS8jrCpEXXcSDwdt', instagram: 'https://www.instagram.com/madmonkeyphuket/' },
 
   // Vietnam
-  { id: 'hanoi', name: 'Hanoi', country: 'vietnam', whatsapp: 'https://chat.whatsapp.com/DpI7WUmVDizAfacDxXwzmw', instagram: 'https://www.instagram.com/madmonkeyhanoi/' },
-  { id: 'hoi-an', name: 'Hoi An', country: 'vietnam', whatsapp: 'https://chat.whatsapp.com/LR00FjfBvZw9PWpA8v2N5L', instagram: 'https://www.instagram.com/madmonkeyhoian/' },
+  { id: 'hanoi', name: 'Hanoi', country: 'vietnam', whatsapp: 'https://chat.whatsapp.com/DpI7WUmVDizAfacDxXwzmw', instagram: 'https://www.instagram.com/madmonkeyhanoi/', tiktok: 'https://www.tiktok.com/@madmonkeyhanoi' },
+  { id: 'hoi-an', name: 'Hoi An', country: 'vietnam', whatsapp: 'https://chat.whatsapp.com/LR00FjfBvZw9PWpA8v2N5L', instagram: 'https://www.instagram.com/madmonkeyhoian/', tiktok: 'https://www.tiktok.com/@madmonkeyhoian' },
 ]
 
 /* ------------------------------------------------------------------ */
@@ -182,4 +220,10 @@ export const propertiesIn = (countryId: string) =>
 export const instagramHandle = (url: string) => {
   const m = url.match(/instagram\.com\/([^/?#]+)/i)
   return m ? `@${m[1]}` : ''
+}
+
+/** "https://www.tiktok.com/@madmonkeyhanoi" -> "@madmonkeyhanoi" */
+export const tiktokHandle = (url: string) => {
+  const m = url.match(/tiktok\.com\/(@[^/?#]+)/i)
+  return m ? m[1] : ''
 }

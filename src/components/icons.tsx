@@ -43,3 +43,22 @@ export function CanvaIcon({ className }: IconProps) {
     </svg>
   )
 }
+
+export function TikTokIcon({ className }: IconProps) {
+  // Simple music-note mark, not the TikTok logo
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      className={className}
+    >
+      <path d="M14 3v11.5a3.5 3.5 0 1 1-3.5-3.5" />
+      <path d="M14 3c.4 2.6 2.2 4.4 5 4.6" />
+    </svg>
+  )
+}

@@ -1,15 +1,20 @@
 import type { CSSProperties } from 'react'
-import { ArrowUpRight, FileText, LayoutDashboard, Lock, Presentation, Sheet } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, BookOpen, LayoutDashboard, Lock, Sheet } from 'lucide-react'
 import { SHARED_RESOURCES, type ResourceKind, type SharedResource } from '../data/hub'
 
-const KIND: Record<ResourceKind, { label: string; Icon: typeof FileText }> = {
-  Doc: { label: 'Doc', Icon: FileText },
-  Slides: { label: 'Slides', Icon: Presentation },
+const KIND: Record<ResourceKind, { label: string; Icon: typeof BookOpen }> = {
+  Guide: { label: 'Guide', Icon: BookOpen },
   Sheet: { label: 'Sheet', Icon: Sheet },
   Tool: { label: 'Tool', Icon: LayoutDashboard },
 }
 
 const BLUE = { '--pop': '#0081f7' } as CSSProperties
+
+/** Where a resource goes: a page inside the hub, an outside link, or nowhere yet */
+const target = (r: SharedResource) =>
+  r.page ? { href: `#/${r.page}`, external: false } : r.url ? { href: r.url, external: true } : null
+
+const externalProps = { target: '_blank', rel: 'noopener noreferrer' } as const
 
 export default function SharedResources() {
   return (
@@ -33,7 +38,7 @@ export default function SharedResources() {
 
 function ResourceCard({ resource: r }: { resource: SharedResource }) {
   const { label, Icon } = KIND[r.kind]
-  const missing = !r.url
+  const to = target(r)
 
   const body = (
     <>
@@ -42,13 +47,15 @@ function ResourceCard({ resource: r }: { resource: SharedResource }) {
           <Icon className="h-3.5 w-3.5" aria-hidden="true" />
           {label}
         </span>
-        {missing ? (
+        {!to ? (
           <span className="rounded-full bg-line px-3 py-1 text-xs font-semibold text-muted">Link coming soon</span>
+        ) : to.external ? (
+          <ArrowUpRight className="h-5 w-5 text-muted transition-colors group-hover:text-pop-blue" aria-hidden="true" />
         ) : (
-          <ArrowUpRight
-            className="h-5 w-5 text-muted transition-colors group-hover:text-pop-blue"
-            aria-hidden="true"
-          />
+          <span className="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[0.12em] text-muted transition-colors group-hover:text-pop-blue">
+            Read here
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </span>
         )}
       </div>
 
@@ -73,7 +80,7 @@ function ResourceCard({ resource: r }: { resource: SharedResource }) {
     </>
   )
 
-  if (missing) {
+  if (!to) {
     return (
       <div className="flex w-full flex-col rounded-2xl border border-dashed border-line p-5 sm:p-6" aria-disabled="true">
         {body}
@@ -83,28 +90,30 @@ function ResourceCard({ resource: r }: { resource: SharedResource }) {
 
   return (
     <a
-      href={r.url}
-      target="_blank"
-      rel="noopener noreferrer"
+      id={r.page ? `res-${r.page}` : undefined}
+      href={to.href}
+      {...(to.external ? externalProps : {})}
       style={BLUE}
       className="lift group flex w-full flex-col rounded-2xl border border-line bg-surface p-5 sm:p-6"
     >
       {body}
-      <span className="sr-only"> (opens in a new tab)</span>
+      {to.external && <span className="sr-only"> (opens in a new tab)</span>}
     </a>
   )
 }
 
-/** Compact version for the bottom of each property page */
-export function SharedResourcesCompact() {
+/** Compact version for the bottom of each property and guide page */
+export function SharedResourcesCompact({ exclude }: { exclude?: string } = {}) {
+  const items = SHARED_RESOURCES.filter((r) => r.id !== exclude)
   return (
     <section aria-labelledby="shared-compact-title" className="mt-12">
       <h2 id="shared-compact-title" className="eyebrow text-muted">
         Shared resources &amp; tools
       </h2>
       <ul className="mt-4 divide-y divide-line overflow-hidden rounded-2xl border border-line">
-        {SHARED_RESOURCES.map((r) => {
+        {items.map((r) => {
           const { Icon } = KIND[r.kind]
+          const to = target(r)
           const inner = (
             <>
               <Icon className="h-5 w-5 shrink-0 text-muted" aria-hidden="true" />
@@ -112,24 +121,25 @@ export function SharedResourcesCompact() {
                 <span className="block font-semibold">{r.title}</span>
                 <span className="block truncate text-sm text-muted">{r.subtitle ?? r.description}</span>
               </span>
-              {r.url ? (
+              {!to ? (
+                <span className="shrink-0 text-xs font-semibold text-muted">Coming soon</span>
+              ) : to.external ? (
                 <ArrowUpRight className="h-5 w-5 shrink-0 text-muted group-hover:text-pop-blue" aria-hidden="true" />
               ) : (
-                <span className="shrink-0 text-xs font-semibold text-muted">Coming soon</span>
+                <ArrowRight className="h-5 w-5 shrink-0 text-muted group-hover:text-pop-blue" aria-hidden="true" />
               )}
             </>
           )
           return (
             <li key={r.id}>
-              {r.url ? (
+              {to ? (
                 <a
-                  href={r.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href={to.href}
+                  {...(to.external ? externalProps : {})}
                   className="group flex items-center gap-4 bg-surface px-4 py-4 transition-colors hover:bg-ink sm:px-5"
                 >
                   {inner}
-                  <span className="sr-only"> (opens in a new tab)</span>
+                  {to.external && <span className="sr-only"> (opens in a new tab)</span>}
                 </a>
               ) : (
                 <div className="flex items-center gap-4 px-4 py-4 sm:px-5" aria-disabled="true">
