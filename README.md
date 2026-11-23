@@ -19,7 +19,11 @@ else needs touching.
 
 - **Shared resources** (SOP, playbook, SST, dashboard, Studio): `SHARED_RESOURCES`
 - **The original Google files** (playbook slides, SST sheet, SOP doc if there is one): `ORIGINALS`
-- **Brand Image Library** (named in the playbook): `TOOLS.brandImageLibrary`
+- **Brand Image Library** (Google Drive folder, linked from the playbook .pptx): `TOOLS.brandImageLibrary`
+
+The playbook .pptx links the Experience Dashboard and the design tool to their
+`vercel.app` addresses. The hub uses `madmonkeyhostels.com/experiencedashboard` and
+`studio.madmonkeygroup.com` instead: same apps, but these open on Lao networks.
 - **A property's WhatsApp, Instagram or TikTok**: its line in `PROPERTIES`
 - **A property-specific Canva / Studio / dashboard link**: add `canva`, `studio` or
   `experienceDashboard` to that property's line (otherwise it uses `TOOLS`)

@@ -20,8 +20,8 @@ export const TOOLS = {
   experienceDashboard: 'https://madmonkeyhostels.com/experiencedashboard',
   studio: 'https://studio.madmonkeygroup.com',
   canvaTemplates: 'https://www.canva.com/brand/brand-templates',
-  /** Named in the Event Comms Playbook, link not supplied yet */
-  brandImageLibrary: '',
+  /** Approved photos (Google Drive folder, anyone with the link can view). From the playbook .pptx. */
+  brandImageLibrary: 'https://drive.google.com/drive/folders/11yZkyZhD4VQHbIyITo9kZw9rkxErSazE',
 }
 
 /** The original files, linked from the VIG SOP (Google Drive, anyone with the link can view) */
@@ -48,7 +48,7 @@ export const isGuideId = (id: string): id is GuideId => (GUIDE_IDS as readonly s
 /* Shared resources & tools (homepage)                                 */
 /* ------------------------------------------------------------------ */
 
-export type ResourceKind = 'Guide' | 'Sheet' | 'Tool'
+export type ResourceKind = 'Guide' | 'Sheet' | 'Folder' | 'Tool'
 
 export interface SharedResource {
   id: string
@@ -106,6 +106,13 @@ export const SHARED_RESOURCES: SharedResource[] = [
     description: 'Create assets for WhatsApp and Instagram Stories.',
     kind: 'Tool',
     url: TOOLS.studio,
+  },
+  {
+    id: 'brand-image-library',
+    title: 'Brand Image Library',
+    description: 'Approved photos for any new event asset.',
+    kind: 'Folder',
+    url: TOOLS.brandImageLibrary,
   },
 ]
 

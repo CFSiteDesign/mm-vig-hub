@@ -1,10 +1,11 @@
 import type { CSSProperties } from 'react'
-import { ArrowRight, ArrowUpRight, BookOpen, LayoutDashboard, Lock, Sheet } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, BookOpen, FolderOpen, LayoutDashboard, Lock, Sheet } from 'lucide-react'
 import { SHARED_RESOURCES, type ResourceKind, type SharedResource } from '../data/hub'
 
 const KIND: Record<ResourceKind, { label: string; Icon: typeof BookOpen }> = {
   Guide: { label: 'Guide', Icon: BookOpen },
   Sheet: { label: 'Sheet', Icon: Sheet },
+  Folder: { label: 'Folder', Icon: FolderOpen },
   Tool: { label: 'Tool', Icon: LayoutDashboard },
 }
 

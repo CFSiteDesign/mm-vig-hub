@@ -313,7 +313,13 @@ export default function PlaybookPage({ onBack }: { onBack: () => void }) {
             <p className="text-lg font-black uppercase leading-snug tracking-tight">
               Need an image? Use the Brand Image Library.
             </p>
-            <p className="mt-2">{imageLibrary}</p>
+            <p className="mt-3">
+              {TOOLS.brandImageLibrary ? (
+                <Ext href={TOOLS.brandImageLibrary}>Open the Brand Image Library</Ext>
+              ) : (
+                imageLibrary
+              )}
+            </p>
           </Card>
         </div>
         <p className="mt-4 text-muted">
