@@ -51,7 +51,7 @@ guests' phone numbers). Both stay in the originals only.
 ## Walkthrough video
 
 The "How to use the hub" banner at the top of the homepage opens
-`public/walkthrough.mp4` (86 seconds, phone-shaped, voiceover plus burned-in captions).
+`public/walkthrough.mp4` (84 seconds, phone-shaped, voiceover plus burned-in captions).
 It is a recording of the real hub, so remake it when the pages change a lot:
 
 ```bash
@@ -63,9 +63,10 @@ node video/record.mjs /tmp/hub-vo /tmp/hub-rec                 # 2. record the s
 
 - **Words:** `video/script.json`. `say` is what the voice reads (letters spaced out,
   like "V I G", so they're spelled), `caption` is what's shown on screen.
-- **Voice:** Kokoro `bf_emma`, a local model in `~/jarvis/models` (no API key, works
-  offline). Change `voice` in the script to try another (`bm_george`, `bm_lewis`,
-  `bf_isabella`...).
+- **Voice:** a 50/50 blend of Kokoro's `af_heart` and `bf_alice`, 12% faster, British
+  pronunciation. It's a local model in `~/jarvis/models` (no API key, works offline).
+  The first voice, `bf_emma`, sounded flat. Change `voice` in the script to a single
+  name (`bf_lily`, `af_sarah`, `bm_lewis`...) or another blend.
 - **What happens on screen:** `video/record.mjs`, one `line()` per script line.
 
 ## Addresses

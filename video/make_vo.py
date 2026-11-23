@@ -20,9 +20,15 @@ out.mkdir(parents=True, exist_ok=True)
 script = json.loads((HERE / "script.json").read_text())
 kokoro = Kokoro(str(MODELS / "kokoro-v1.0.onnx"), str(MODELS / "voices-v1.0.bin"))
 
+# "voice" is a Kokoro voice name, or a blend like {"af_heart": 0.5, "bf_alice": 0.5}
+voice = script["voice"]
+if isinstance(voice, dict):
+    voice = sum(weight * kokoro.get_voice_style(name) for name, weight in voice.items())
+lang = script.get("lang", "en-gb")
+
 durations = {}
 for line in script["lines"]:
-    samples, sr = kokoro.create(line["say"], voice=script["voice"], speed=script["speed"], lang="en-gb")
+    samples, sr = kokoro.create(line["say"], voice=voice, speed=script["speed"], lang=lang)
     sf.write(out / f"{line['id']}.wav", samples, sr, subtype="PCM_16")
     durations[line["id"]] = round(len(samples) / sr, 3)
     print(f"{line['id']:>14}  {durations[line['id']]:5.2f}s  {line['say']}")

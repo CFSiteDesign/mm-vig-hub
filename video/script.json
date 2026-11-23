@@ -1,39 +1,31 @@
 {
-  "voice": "bf_emma",
-  "speed": 1.0,
+  "voice": {"af_heart": 0.5, "bf_alice": 0.5},
+  "speed": 1.12,
+  "lang": "en-gb",
   "lines": [
-    { "id": "welcome", "say": "Hey, and welcome to the Mad Monkey V I G and G E Hub.", "caption": "Hey, and welcome to the Mad Monkey VIG & GE Hub." },
-    { "id": "one-link", "say": "It's one link, with everything you need for your job.", "caption": "It's one link, with everything you need for your job." },
-    { "id": "how", "say": "Here's how it works.", "caption": "Here's how it works." },
-
-    { "id": "find", "say": "First, find your property.", "caption": "First, find your property." },
-    { "id": "tap-country", "say": "Tap your country, then tap your hostel.", "caption": "Tap your country, then tap your hostel." },
-
-    { "id": "page", "say": "This is your property page.", "caption": "This is your property page." },
-    { "id": "mine", "say": "Tap, Make this my property, and it'll be right at the top every time you come back.", "caption": "Tap \"Make this my property\" and it'll be at the top every time you come back." },
-    { "id": "local-time", "say": "This is the hostel's local time. Always post in hostel time, not your own.", "caption": "This is the hostel's local time. Always post in hostel time, not your own." },
-
-    { "id": "whatsapp", "say": "Here's your guest WhatsApp group.", "caption": "Here's your guest WhatsApp group." },
-    { "id": "whatsapp-when", "say": "Post tonight's events in there, between two and four in the afternoon.", "caption": "Post tonight's events in there, between 2pm and 4pm." },
-
-    { "id": "instagram", "say": "Underneath is the hostel's Instagram. Post Stories in the morning.", "caption": "Underneath is the hostel's Instagram. Post Stories in the morning." },
-    { "id": "login", "say": "The login is in the shared password manager. No access? Just ask your G M or Marketing.", "caption": "The login is in the shared password manager. No access? Just ask your GM or Marketing." },
-
-    { "id": "tools", "say": "Below that are your tools.", "caption": "Below that are your tools." },
-    { "id": "dashboard", "say": "The Experience Dashboard shows every event and tour. If it's not on the dashboard, don't post it.", "caption": "The Experience Dashboard shows every event and tour. If it's not on the dashboard, don't post it." },
-    { "id": "studio", "say": "Mad Monkey Studio is where you make your event images.", "caption": "MM Studio is where you make your event images." },
-
-    { "id": "back", "say": "Now, back to the home page, and down to the guides.", "caption": "Now, back to the home page, and down to the guides." },
-    { "id": "sop", "say": "The V I G S O P explains your daily jobs.", "caption": "The VIG SOP explains your daily jobs." },
-    { "id": "playbook", "say": "The Playbook has ready-made WhatsApp messages. Let's open it.", "caption": "The Playbook has ready-made WhatsApp messages. Let's open it." },
-
-    { "id": "template", "say": "Pick the right template.", "caption": "Pick the right template." },
-    { "id": "copy", "say": "Tap Copy, paste it into WhatsApp, and fill in the real details.", "caption": "Tap Copy, paste it into WhatsApp, and fill in the real details." },
-
-    { "id": "checklist", "say": "Before you hit send, tick through the checklist.", "caption": "Before you hit send, tick through the checklist." },
-    { "id": "unclear", "say": "If anything's unclear, ask before you post.", "caption": "If anything's unclear, ask before you post." },
-
-    { "id": "outro", "say": "That's it! Your property, your tools and your guides, all in one place.", "caption": "That's it! Your property, your tools and your guides, all in one place." },
-    { "id": "bye", "say": "Have fun out there!", "caption": "Have fun out there!" }
+    {"id": "welcome", "say": "Hey! Welcome to the Mad Monkey V I G and G E Hub!", "caption": "Hey! Welcome to the Mad Monkey VIG & GE Hub!"},
+    {"id": "one-link", "say": "It's one link, with everything you need for your job.", "caption": "It's one link, with everything you need for your job."},
+    {"id": "how", "say": "Here's how it works!", "caption": "Here's how it works!"},
+    {"id": "find", "say": "First up, find your property.", "caption": "First up, find your property."},
+    {"id": "tap-country", "say": "Tap your country, then tap your hostel. Easy!", "caption": "Tap your country, then tap your hostel. Easy!"},
+    {"id": "page", "say": "This is your property page!", "caption": "This is your property page!"},
+    {"id": "mine", "say": "Tap, Make this my property, and it'll be right at the top every time you come back.", "caption": "Tap \"Make this my property\" and it'll be at the top every time you come back."},
+    {"id": "local-time", "say": "This is the hostel's local time. Always post in hostel time, not your own!", "caption": "This is the hostel's local time. Always post in hostel time, not your own!"},
+    {"id": "whatsapp", "say": "Here's your guest WhatsApp group!", "caption": "Here's your guest WhatsApp group!"},
+    {"id": "whatsapp-when", "say": "Post tonight's events in there, between two and four in the afternoon.", "caption": "Post tonight's events in there, between 2pm and 4pm."},
+    {"id": "instagram", "say": "Underneath is the hostel's Instagram. Post Stories in the morning!", "caption": "Underneath is the hostel's Instagram. Post Stories in the morning!"},
+    {"id": "login", "say": "The login is in the shared password manager. No access? Just ask your G M or Marketing.", "caption": "The login is in the shared password manager. No access? Just ask your GM or Marketing."},
+    {"id": "tools", "say": "Below that are your tools.", "caption": "Below that are your tools."},
+    {"id": "dashboard", "say": "The Experience Dashboard shows every event and tour. If it's not on the dashboard, don't post it!", "caption": "The Experience Dashboard shows every event and tour. If it's not on the dashboard, don't post it!"},
+    {"id": "studio", "say": "And Mad Monkey Studio is where you make your event images.", "caption": "And MM Studio is where you make your event images."},
+    {"id": "back", "say": "Now, back to the home page, and down to the guides.", "caption": "Now, back to the home page, and down to the guides."},
+    {"id": "sop", "say": "The V I G S O P explains your daily jobs.", "caption": "The VIG SOP explains your daily jobs."},
+    {"id": "playbook", "say": "The Playbook has ready-made WhatsApp messages. Let's open it!", "caption": "The Playbook has ready-made WhatsApp messages. Let's open it!"},
+    {"id": "template", "say": "Pick the right template.", "caption": "Pick the right template."},
+    {"id": "copy", "say": "Tap Copy, paste it into WhatsApp, and fill in the real details.", "caption": "Tap Copy, paste it into WhatsApp, and fill in the real details."},
+    {"id": "checklist", "say": "Before you hit send, tick through the checklist.", "caption": "Before you hit send, tick through the checklist."},
+    {"id": "unclear", "say": "If anything's unclear, just ask before you post.", "caption": "If anything's unclear, just ask before you post."},
+    {"id": "outro", "say": "That's it! Your property, your tools and your guides, all in one place.", "caption": "That's it! Your property, your tools and your guides, all in one place."},
+    {"id": "bye", "say": "Have fun out there!", "caption": "Have fun out there!"}
   ]
 }
