@@ -48,6 +48,26 @@ out on purpose: the SOP's Experience Dashboard and Studio passwords (the Word fi
 them written in), and the playbook's "Real life examples" slide (its screenshots show
 guests' phone numbers). Both stay in the originals only.
 
+## Walkthrough video
+
+The "How to use the hub" banner at the top of the homepage opens
+`public/walkthrough.mp4` (86 seconds, phone-shaped, voiceover plus burned-in captions).
+It is a recording of the real hub, so remake it when the pages change a lot:
+
+```bash
+npm run dev                                                    # in another terminal
+~/jarvis/venv/bin/python video/make_vo.py /tmp/hub-vo          # 1. voiceover from video/script.json
+node video/record.mjs /tmp/hub-vo /tmp/hub-rec                 # 2. record the site on a phone screen
+~/jarvis/venv/bin/python video/build.py /tmp/hub-vo /tmp/hub-rec public/walkthrough.mp4 public/walkthrough-poster.jpg
+```
+
+- **Words:** `video/script.json`. `say` is what the voice reads (letters spaced out,
+  like "V I G", so they're spelled), `caption` is what's shown on screen.
+- **Voice:** Kokoro `bf_emma`, a local model in `~/jarvis/models` (no API key, works
+  offline). Change `voice` in the script to try another (`bm_george`, `bm_lewis`,
+  `bf_isabella`...).
+- **What happens on screen:** `video/record.mjs`, one `line()` per script line.
+
 ## Addresses
 
 - Homepage: `/`

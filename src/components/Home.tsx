@@ -3,6 +3,7 @@ import { ArrowRight, Lightbulb, Star } from 'lucide-react'
 import { COUNTRIES, SUGGEST_URL, countryById, propertyById } from '../data/hub'
 import Directory from './Directory'
 import SharedResources from './SharedResources'
+import Walkthrough from './Walkthrough'
 import stamp from '../assets/mm-stamp-cream.png'
 
 type Props = {
@@ -31,7 +32,9 @@ export default function Home({ expanded, onToggle, myProperty, returnTo }: Props
 
   return (
     <main className="fade-in">
-      <header className="wrap relative pb-12 pt-8 sm:pb-16 sm:pt-16">
+      <Walkthrough />
+
+      <header className="wrap relative pb-12 pt-8 sm:pb-16 sm:pt-12">
         <img
           src={stamp}
           alt=""
