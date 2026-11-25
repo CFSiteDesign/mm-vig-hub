@@ -4,7 +4,7 @@ import { COUNTRIES, SUGGEST_URL, countryById, propertyById } from '../data/hub'
 import Directory from './Directory'
 import SharedResources from './SharedResources'
 import Walkthrough from './Walkthrough'
-import stamp from '../assets/mm-stamp-cream.png'
+import badge from '../assets/mm-badge-lg.webp'
 
 type Props = {
   expanded: Set<string>
@@ -36,10 +36,10 @@ export default function Home({ expanded, onToggle, myProperty, returnTo }: Props
 
       <header className="wrap relative pb-12 pt-8 sm:pb-16 sm:pt-12">
         <img
-          src={stamp}
+          src={badge}
           alt=""
-          width={450}
-          height={450}
+          width={802}
+          height={800}
           className="pointer-events-none absolute right-6 top-12 hidden w-[340px] -rotate-6 select-none xl:block"
         />
         <h1 className="relative">

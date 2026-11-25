@@ -44,7 +44,7 @@ const FX = () => {
   .fx-spot.on{opacity:1}
   #fx-card{position:fixed;inset:0;z-index:2147483400;background:#0a0a0a;color:#f5efe2;display:flex;flex-direction:column;
     justify-content:center;padding:0 32px;transition:opacity .45s ease;font-family:Montserrat,system-ui,sans-serif}
-  #fx-card img{width:150px;height:auto;margin-bottom:40px}
+  #fx-card img{width:120px;height:auto;margin-bottom:36px}
   #fx-card .e{font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#ccff01}
   #fx-card .t{font-size:54px;font-weight:900;line-height:.92;text-transform:uppercase;letter-spacing:-.02em;margin-top:14px}
   #fx-card .s{font-size:18px;font-weight:600;margin-top:22px;color:rgba(245,239,226,.72)}
@@ -148,7 +148,7 @@ const page = await context.newPage()
 await page.goto(BASE, { waitUntil: 'networkidle' })
 await page.evaluate(FX)
 await page.evaluate(() => document.fonts.ready)
-const LOGO = await page.locator('img[alt="Mad Monkey"]').first().getAttribute('src')
+const LOGO = await page.locator('img[alt="Mad Monkey Hostels"]').first().getAttribute('src')
 const logoUrl = new URL(LOGO, BASE).href
 
 const fxCall = (fn, ...args) => page.evaluate(([fn, args]) => window.__fx[fn](...args), [fn, args])

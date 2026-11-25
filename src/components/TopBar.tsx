@@ -1,11 +1,11 @@
 import { ChevronLeft } from 'lucide-react'
-import logo from '../assets/mm-logo-white.png'
+import badge from '../assets/mm-badge.png'
 
 export default function TopBar() {
   return (
     <div className="wrap flex items-center justify-between gap-4 py-4 sm:py-6">
       <a href="#/" className="block shrink-0 rounded-md" aria-label="VIG & GE Hub home">
-        <img src={logo} alt="Mad Monkey" width={600} height={181} className="h-8 w-auto sm:h-10" />
+        <img src={badge} alt="Mad Monkey Hostels" width={257} height={256} className="h-14 w-14 sm:h-16 sm:w-16" />
       </a>
       <a
         href="https://madmonkeyhostels.com"

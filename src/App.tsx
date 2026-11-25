@@ -6,7 +6,7 @@ import Home from './components/Home'
 import PropertyView from './components/PropertyView'
 import SopPage from './components/guides/SopPage'
 import PlaybookPage from './components/guides/PlaybookPage'
-import logo from './assets/mm-logo-white.png'
+import badge from './assets/mm-badge.png'
 
 const GUIDE_TITLES = { sop: 'VIG SOP', playbook: 'WhatsApp Event Comms Playbook' }
 
@@ -82,7 +82,7 @@ export default function App() {
       <footer className="border-t border-line">
         <div className="wrap flex flex-col gap-4 py-8 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-4">
-            <img src={logo} alt="" width={600} height={181} className="h-7 w-auto" />
+            <img src={badge} alt="" width={257} height={256} className="h-10 w-10" />
             <span className="font-semibold text-cream">One link, everything you need to do the job.</span>
           </div>
           <p className="sm:max-w-sm sm:text-right">{LOGIN_NOTE}</p>
